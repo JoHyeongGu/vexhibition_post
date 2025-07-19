@@ -31,6 +31,7 @@ class _MainPageState extends State<MainPage> {
 
   void setVisibleDownIcon() {
     setState(() {
+      playPixel = false;
       visibleDownIcon = contentScroll.offset < 100;
     });
   }
