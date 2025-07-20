@@ -29,7 +29,7 @@ class _TableWidgetState extends State<TableWidget> {
     double height = onTable ? 45 * widget.data.keys.length.toDouble() : 100;
     return Positioned(
       right: 0,
-      top: MediaQuery.of(context).size.height / 4,
+      top: 100,
       child: MouseRegion(
         onEnter: (details) => setState(() {
           onTable = true;
@@ -37,31 +37,38 @@ class _TableWidgetState extends State<TableWidget> {
         onExit: (details) => setState(() {
           onTable = false;
         }),
-        child: AnimatedContainer(
-          duration: Duration(milliseconds: 300),
-          curve: Curves.easeOutQuart,
-          width: width,
-          height: height,
-          decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: onTable ? 0.15 : 0.5),
-            borderRadius: BorderRadius.horizontal(
-              left: Radius.circular(onTable ? 30 : 100),
+        child: GestureDetector(
+          onTap: () => setState(() {
+            onTable = !onTable;
+          }),
+          child: AnimatedContainer(
+            duration: Duration(milliseconds: 300),
+            curve: Curves.easeOutQuart,
+            width: width,
+            height: height,
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: onTable ? 0.15 : 0.5),
+              borderRadius: BorderRadius.horizontal(
+                left: Radius.circular(onTable ? 30 : 100),
+              ),
             ),
-          ),
-          padding: EdgeInsets.all(30),
-          child: WebSmoothScroll(
-            controller: scrollController,
-            child: SingleChildScrollView(
+            padding: EdgeInsets.all(30),
+            child: WebSmoothScroll(
               controller: scrollController,
-              physics: NeverScrollableScrollPhysics(),
-              child: Column(
-                spacing: 15,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  if (onTable)
-                    ...widget.data.entries.map((e) => _section(e.key, e.value)),
-                ],
+              child: SingleChildScrollView(
+                controller: scrollController,
+                physics: NeverScrollableScrollPhysics(),
+                child: Column(
+                  spacing: 15,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    if (onTable)
+                      ...widget.data.entries.map(
+                        (e) => _section(e.key, e.value),
+                      ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -86,23 +93,25 @@ class _TableWidgetState extends State<TableWidget> {
           clickedSection = "";
         }),
         onTap: () {
-          // widget.controller
           Scrollable.ensureVisible(
             key.currentContext!,
             duration: Duration(milliseconds: 500),
             curve: Curves.easeInOut,
           );
         },
-        child: Text(
-          title,
-          style: textStyle.copyWith(
-            fontSize: 14,
-            color: Colors.white.withValues(
-              alpha: clickedSection == title
-                  ? 1
-                  : sectionTitle == title
-                  ? 0.9
-                  : 0.7,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Text(
+            title,
+            style: textStyle.copyWith(
+              fontSize: 14,
+              color: Colors.white.withValues(
+                alpha: clickedSection == title
+                    ? 1
+                    : sectionTitle == title
+                    ? 0.9
+                    : 0.7,
+              ),
             ),
           ),
         ),

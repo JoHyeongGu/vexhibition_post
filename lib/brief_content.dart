@@ -36,10 +36,7 @@ class _BriefContentState extends State<BriefContent> {
           Text("개발 진행 상황", style: textStyle.copyWith(fontSize: 15)),
           Text(widget.data.title, style: textStyle.copyWith(fontSize: 40)),
           Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 15,
-              vertical: isMobile() ? 0 : 30,
-            ),
+            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 30),
             child: ImageSlideshow(
               height: imageSlideHeight,
               indicatorRadius: isOneItem ? 0 : 3,
@@ -76,6 +73,10 @@ class _BriefContentState extends State<BriefContent> {
                       builder: (builder) => Padding(
                         padding: const EdgeInsets.symmetric(vertical: 30),
                         child: Dialog(
+                          backgroundColor: Colors.black,
+                          insetPadding: EdgeInsets.symmetric(
+                            vertical: MediaQuery.of(context).size.height / 4,
+                          ),
                           child: Image.asset(
                             data.image,
                             fit: BoxFit.contain,

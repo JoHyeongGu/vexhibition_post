@@ -80,23 +80,19 @@ class _MainPageState extends State<MainPage> {
   }
 
   Widget _content() {
-    return WebSmoothScroll(
+    return SingleChildScrollView(
       controller: contentScroll,
-      child: SingleChildScrollView(
-        controller: contentScroll,
-        physics: isMobile() ? null : NeverScrollableScrollPhysics(),
-        child: Column(
-          children: [
-            _title(),
-            _description(),
-            ...briefingData.map((data) {
-              GlobalKey key = GlobalKey();
-              tableData[data.title] = key;
-              return BriefContent(key, data);
-            }),
-            _streamPixel(),
-          ],
-        ),
+      child: Column(
+        children: [
+          _title(),
+          _description(),
+          ...briefingData.map((data) {
+            GlobalKey key = GlobalKey();
+            tableData[data.title] = key;
+            return BriefContent(key, data);
+          }),
+          _streamPixel(),
+        ],
       ),
     );
   }
